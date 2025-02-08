@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te amo 14.000.000</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+            transition: background-color 3s ease-in-out;
+        }
+        
+        .sun, .moon {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            top: 30%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 3s ease-in-out 1s, opacity 3s ease-in-out 1s;
+            box-shadow: 0 0 50px;
+            z-index: 3;
+        }
+        
+        .sun {
+            background-color: rgba(235, 173, 4, 0.938);
+            left: 45%;
+            box-shadow: 0 0 50px rgb(236, 155, 5);
+        }
+        
+        .moon {
+            background-color: rgba(200, 200, 200, 0.9);
+            left: 55%;
+            box-shadow: 0 0 50px rgba(200, 200, 200, 0.5);
+            clip-path: circle(50% at 75% 50%);
+            z-index: 3;
+        }
+        
+        .title-image {
+            width: 400px;
+            opacity: 0;
+            transition: opacity 3s ease-in-out 4s;
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+        }
+        
+        .button-container {
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 3s ease-in-out 4.5s;
+            z-index: 3;
+        }
+        
+        .button-container a {
+            background-color: yellow;
+            color: black;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .button-container a:hover {
+            background-color: rgba(235, 173, 4, 0.938);
+        }
+        
+        .image-container {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            z-index: 2;
+        }
+        
+        .image {
+            width: 150px;
+            height: auto;
+            opacity: 0;
+            transform: scale(1);
+            transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+            position: absolute;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="sun"></div>
+    <div class="moon"></div>
+    <img src="Titulo.png" class="title-image" alt="I love you 7.000.000">
+    <div class="button-container">
+        <a href="index2.html">Amorcito Corazón</a>
+    </div>
+    <div class="image-container"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let sun = document.querySelector(".sun");
+            let moon = document.querySelector(".moon");
+            let titleImage = document.querySelector(".title-image");
+            let buttonContainer = document.querySelector(".button-container");
+            let imageContainer = document.querySelector(".image-container");
+            let body = document.body;
+            
+            setTimeout(() => {
+                sun.style.transform = "translate(-50%, -50%) scale(1)";
+                sun.style.opacity = "1";
+                moon.style.transform = "translate(-50%, -50%) scale(1)";
+                moon.style.opacity = "1";
+                body.style.backgroundColor = "black";
+            }, 1000);
+            
+            setTimeout(() => {
+                titleImage.style.opacity = "1";
+                buttonContainer.style.opacity = "1";
+            }, 4000);
+            
+            let imageSources = Array.from({ length: 18 }, (_, i) => `image${i + 1}.png`);
+            let positions = [];
+            let minDistance = 15;
+            
+            function getSafePosition() {
+                let x, y, valid;
+                do {
+                    x = Math.random() * 80 + 10;
+                    y = Math.random() * 80 + 10;
+                    valid = positions.every(pos => {
+                        let dx = Math.abs(x - pos.x);
+                        let dy = Math.abs(y - pos.y);
+                        return Math.sqrt(dx * dx + dy * dy) > minDistance;
+                    }) && !(x > 40 && x < 60 && y > 20 && y < 60);
+                } while (!valid);
+                positions.push({ x, y });
+                return { x: x + "%", y: y + "%" };
+            }
+            
+            imageSources.forEach((src, index) => {
+                let img = document.createElement("img");
+                img.src = src;
+                img.classList.add("image");
+                
+                let position = getSafePosition();
+                img.style.top = position.y;
+                img.style.left = position.x;
+                
+                imageContainer.appendChild(img);
+                
+                setTimeout(() => {
+                    img.style.opacity = "1";
+                    img.style.transform = "scale(0.8)";
+                }, (index + 1) * 2000 + 4000);
+            });
+        });
+    </script>
+</body>
+</html>
